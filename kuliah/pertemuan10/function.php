@@ -11,9 +11,10 @@ function query($query)
   $result = mysqli_query($conn, $query);
 
   if (mysqli_num_rows($result) == 1) {
-    mysqli_fetch_assoc($result);
+    return mysqli_fetch_assoc($result);
 
   }
+
 
 
   $rows = [];
