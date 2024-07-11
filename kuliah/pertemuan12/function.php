@@ -103,3 +103,22 @@ nrp LIKE '%$keyword%'";
 }
 ;
 
+function masuk($data)
+{
+  $conn = koneksi();
+
+  $username = htmlspecialchars($data['username']);
+  $password = htmlspecialchars($data['password']);
+
+  if (query("SELECT * FROM user WHERE username = '$username' && password = '$password'")) {
+    $_SESSION['login'] = true;
+    header("Location: index.php");
+    exit;
+  } else {
+    return [
+      'error' => true,
+      'pesan' => 'Username / Password Salah!'
+    ];
+  }
+}
+;
