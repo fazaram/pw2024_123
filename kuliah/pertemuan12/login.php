@@ -41,12 +41,15 @@ if (isset($_POST["masuk"])) {
       <li> <label>
           Password :
           <input type="password" name="password" required>
-        </label></li>
-      <li><button type="submit" name="masuk">Login!</button></li>
+        </label></li><br>
+      <li><button type="submit" name="masuk">Login</button>
+      </li>
     </ul>
 
 
   </form>
+  <p>belum punya akun ? <a href="registrasi.php">Registrasi</a></p>
+
 </body>
 
 </html>
