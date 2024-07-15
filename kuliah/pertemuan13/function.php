@@ -26,6 +26,53 @@ function query($query)
 }
 ;
 
+function upload()
+{
+  $nama = $_FILES['gambar']['name'];
+  $tipe = $_FILES['gambar']['type'];
+  $ukuran = $_FILES['gambar']['size'];
+  $error = $_FILES['gambar']['error'];
+  $tmp = $_FILES['gambar']['tmp_name'];
+
+  // cek apakah gambar sudah dipilih
+  if ($error == 4) {
+    echo "<script>alert('pilih gambar terlebih dahulu!')</script>";
+    return false;
+  }
+
+  $daftar_gambar = ['jpg', 'jpeg', 'png'];
+  $ekstensi_file = explode('.', $nama);
+  $ekstensi_file = strtolower(end($ekstensi_file));
+
+  // cek apakah ekstensinya ada di daftar gambar
+  if (!in_array($ekstensi_file, $daftar_gambar)) {
+    echo "<script>alert('ekstensi file salah!')</script>";
+  }
+  ;
+
+  // cek yang diupload gambar bukan
+  if ($tipe != 'image/jpeg' && $tipe != 'image/png') {
+    echo "<script>alert('yang diupload bukan gambar!')</script>";
+  }
+  ;
+
+  // cek ukuran gambar max = 5MB
+  if ($ukuran > 5000000) {
+    echo "<script>alert('ukuran gambar terlalu besar!')</script>";
+  }
+  ;
+
+  // kalo udah lolos pengecekan
+  $nama_baru = uniqid();
+  $nama_baru .= '.';
+  $nama_baru .= $ekstensi_file;
+
+  move_uploaded_file($tmp, "img/$nama_baru");
+
+  return $nama_baru;
+
+}
+
 function tambah($data)
 {
   $conn = koneksi();
@@ -34,8 +81,20 @@ function tambah($data)
   $nrp = htmlspecialchars($data['nrp']);
   $email = htmlspecialchars($data['email']);
   $jurusan = htmlspecialchars($data['jurusan']);
-  $gambar = htmlspecialchars($data['gambar']);
+  // $gambar = htmlspecialchars($data['gambar']);
 
+  $gambar = upload();
+  if (!$gambar) {
+    return false;
+  }
+  ;
+
+  if (empty($nama) || empty($nrp) || empty($email) || empty($jurusan)) {
+    echo "<script>alert('Data harus diisi!'); 
+    document.location.href= 'tambah.php';
+    </script>";
+    return false;
+  }
 
   $query = "INSERT INTO
               mahasiswa 

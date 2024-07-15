@@ -16,8 +16,6 @@ if (isset($_POST['tambah'])) {
           alert('data berhasil ditambahkan!');
           document.location.href='index.php';
           </script>";
-  } else {
-    echo "data gagal ditambah!";
   }
   ;
 
@@ -36,27 +34,27 @@ if (isset($_POST['tambah'])) {
 
 <body>
   <h3>Tambah Data Mahasiswa</h3>
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     <ul>
       <li><label>
           Nama :
-          <input type="text" name="nama" autofocus require>
+          <input type="text" name="nama" autofocus required>
         </label></li>
       <li><label>
           NRP :
-          <input type="text" name="nrp" require>
+          <input type="text" name="nrp" required>
         </label></li>
       <li><label>
           Email :
-          <input type="text" name="email" require>
+          <input type="text" name="email" required>
         </label></li>
       <li><label>
           Jurusan :
-          <input type="text" name="jurusan" require>
+          <input type="text" name="jurusan" required>
         </label></li>
       <li><label>
           Gambar :
-          <input type="text" name="gambar" required>
+          <input type="file" name="gambar">
         </label></li>
       <li><button type="submit" name="tambah">Tambah Data!</button></li>
     </ul>
