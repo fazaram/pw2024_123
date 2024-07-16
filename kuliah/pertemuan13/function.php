@@ -36,8 +36,7 @@ function upload()
 
   // cek apakah gambar sudah dipilih
   if ($error == 4) {
-    echo "<script>alert('pilih gambar terlebih dahulu!')</script>";
-    return false;
+    return 'nofoto.png';
   }
 
   $daftar_gambar = ['jpg', 'jpeg', 'png'];
@@ -111,6 +110,12 @@ function hapus($id)
 {
   $conn = koneksi();
 
+  $mhs = query("SELECT * FROM mahasiswa WHERE id = $id");
+  if ($mhs['gambar'] != 'nofoto.png') {
+    unlink("img/" . $mhs['gambar']);
+  }
+  ;
+
   mysqli_query($conn, "DELETE FROM mahasiswa WHERE id = $id") or die(mysqli_error($conn));
 
   return mysqli_affected_rows($conn);
@@ -125,7 +130,18 @@ function ubah($data)
   $nrp = htmlspecialchars($data['nrp']);
   $email = htmlspecialchars($data['email']);
   $jurusan = htmlspecialchars($data['jurusan']);
-  $gambar = htmlspecialchars($data['gambar']);
+  $gambar_lama = htmlspecialchars($data['gambar_lama']);
+
+  $gambar = upload();
+
+  // tapi kalo ngga upload
+  if (!$gambar) {
+    return false;
+  }
+
+  if ($gambar == 'nofoto.png') {
+    $gambar = $gambar_lama;
+  }
 
 
   $query = "UPDATE mahasiswa SET
